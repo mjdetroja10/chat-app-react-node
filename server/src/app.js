@@ -3,46 +3,32 @@ import http from "http";
 import { Server } from "socket.io";
 import { port } from "./config/index.js";
 import cors from "cors";
+import { SocketConfig } from "./socket-config/SocketConfig.js";
 
 const app = express();
-app.use(cors());
-
 const server = http.createServer(app);
 
+// this is for resolve cors error using cors module
+app.use(cors());
 const io = new Server(server, {
   cors: {
     origin: "http://localhost:3000",
     methods: ["GET", "POST"],
   },
 });
+// this is for resolve cors error using cors module  --- ends
 
-let welcomeTextUsers = [];
-io.on("connection", (socket) => {
-  // create join function while user is joined the room
-  socket.on("join_room", (data) => {
-    socket.join(data?.room);
+// socket configuration 
+try {
+  SocketConfig(io);
+} catch (error) {
+  console.log(error);
+}
+// socket configuration  --- ends
 
-    // get username and its id for show text for user is joined the chat
-    welcomeTextUsers.push({ username: data?.username, id: socket.id });
-    io.sockets.to(data?.room).emit("join_welcome", welcomeTextUsers);
-  });
-
-  // with that get data from client side and create function for receiveing message
-  socket.on("send-message", (data) => {
-    socket.to(data.room).emit("receive-message", data);
-  });
-
-  socket.on("disconnect", () => {
-    // remove user from welcomeTextUsers list while user leaves chat
-
-    let disconnectUsers = welcomeTextUsers.filter(
-      (user) => user.id !== socket.id
-    );
-    io.sockets.emit("disconnected_users", disconnectUsers);
-  });
-});
-
+//  server run on given port 
 server.listen(port, (err) => {
   if (err) console.log(err, "error");
   console.log("server is running on port: " + port);
 });
+//  server run on given port --- ends
