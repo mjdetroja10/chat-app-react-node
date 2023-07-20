@@ -2,7 +2,7 @@ import { SendOutlined } from "@ant-design/icons";
 import { Button, Col, Form, Input, Row } from "antd";
 import React from "react";
 
-export const SendMessage = ({ form, messageInput, submitSendMessage }) => {
+export const SendMessage = ({ form, submitSendMessage }) => {
   return (
     <Form
       name="send-message"
@@ -24,7 +24,7 @@ export const SendMessage = ({ form, messageInput, submitSendMessage }) => {
                 },
               ]}
             >
-              <Input placeholder="message..." ref={messageInput} />
+              <Input placeholder="message..." />
             </Form.Item>
           </Col>
           <Col span={2} style={{ marginLeft: "10px" }}>

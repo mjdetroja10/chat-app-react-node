@@ -3,31 +3,27 @@ import React, { useEffect, useRef, useState } from "react";
 import { SendMessage } from "./Messages-Component/SendMessage";
 import { ShowMessages } from "./Messages-Component/ShowMessages";
 
-const onFinish =
-  (data, socket, setMessageData, form, messageInput) => (values) => {
-    let currentTime =
-      new Date(Date.now()).getHours() + ":" + new Date(Date.now()).getMinutes();
+const onFinish = (data, socket, setMessageData, form) => (values) => {
+  let currentTime =
+    new Date(Date.now()).getHours() + ":" + new Date(Date.now()).getMinutes();
 
-    let id = Math.floor(Math.random() * Date.now());
+  let id = Math.floor(Math.random() * Date.now());
 
-    let sendMessage = {
-      ...data,
-      ...values,
-      time: currentTime,
-      id,
-    };
-
-    setMessageData((prev) => [...prev, sendMessage]);
-
-    socket.emit("send-message", sendMessage);
-    form.resetFields();
-    messageInput.current.focus();
-    messageInput.current.active();
+  let sendMessage = {
+    ...data,
+    ...values,
+    time: currentTime,
+    id,
   };
+
+  setMessageData((prev) => [...prev, sendMessage]);
+
+  socket.emit("send-message", sendMessage);
+  form.resetFields();
+};
 
 export const Chat = ({ data, socket }) => {
   const [form] = Form.useForm();
-  const messageInput = useRef(null);
 
   const [messageData, setMessageData] = useState([]);
   const [welcomeText, setWelcomeText] = useState([]);
@@ -68,14 +64,7 @@ export const Chat = ({ data, socket }) => {
 
       <SendMessage
         form={form}
-        messageInput={messageInput}
-        submitSendMessage={onFinish(
-          data,
-          socket,
-          setMessageData,
-          form,
-          messageInput
-        )}
+        submitSendMessage={onFinish(data, socket, setMessageData, form)}
       />
     </Card>
   );
