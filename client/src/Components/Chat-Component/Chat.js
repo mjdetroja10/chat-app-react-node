@@ -2,7 +2,6 @@ import { Card, Form } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import { SendMessage } from "./Messages-Component/SendMessage";
 import { ShowMessages } from "./Messages-Component/ShowMessages";
-import { useScrollToBottom } from "react-scroll-to-bottom";
 
 const onFinish =
   (data, socket, setMessageData, form, messageInput) => (values) => {
