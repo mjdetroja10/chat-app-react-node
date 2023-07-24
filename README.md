@@ -25,3 +25,14 @@ disconnect method
 
 # chat preview 
 ![Screenshot from 2023-07-20 16-47-35](https://github.com/mjdetroja10/chat-app-react-node/assets/113713786/e6a8d24c-7315-4b5b-a8b8-2447da3a36c4)
+
+# To run this code 
+- open new terminal
+
+- cd client/ <br>
+npm start
+
+- open new terminal
+
+- cd server/ <br>
+npm start
