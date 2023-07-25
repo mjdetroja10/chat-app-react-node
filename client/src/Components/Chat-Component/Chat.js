@@ -1,7 +1,14 @@
-import { Card, Form } from "antd";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Card, Col, Form, Row } from "antd";
 import { SendMessage } from "./Messages-Component/SendMessage";
 import { ShowMessages } from "./Messages-Component/ShowMessages";
+
+const Title = ({ title }) => (
+  <div className="title">
+    <span>{title}</span>
+    <span className="dot"></span>
+  </div>
+);
 
 const onFinish = (data, socket, setMessageData, form) => (values) => {
   let currentTime =
@@ -22,50 +29,54 @@ const onFinish = (data, socket, setMessageData, form) => (values) => {
   form.resetFields();
 };
 
-export const Chat = ({ data, socket }) => {
+export const Chat = ({ socket, data }) => {
   const [form] = Form.useForm();
 
-  const [messageData, setMessageData] = useState([]);
-  const [welcomeText, setWelcomeText] = useState([]);
+  const [messageList, setMessageList] = useState([]);
+  const [joinedUsers, setJoinedUsers] = useState([]);
 
   useEffect(() => {
     socket.on("receive-message", (data) => {
-      setMessageData([...messageData, data]);
+      setMessageList([...messageList, data]);
     });
-  }, [socket, messageData]);
+  }, [socket, messageList]);
 
   useEffect(() => {
     socket.on("join_welcome", (JoinData) => {
-      setWelcomeText(JoinData);
+      setJoinedUsers(JoinData);
     });
+
     socket.on("disconnected_users", (disconnectedData) => {
-      setWelcomeText(() => disconnectedData);
+      setJoinedUsers(disconnectedData);
     });
-  }, [socket]);
+  }, [socket, setJoinedUsers]);
 
   return (
-    <Card
-      style={{ maxWidth: 650, alignItems: "center" }}
-      title={
-        <div className="title">
-          <span>Live Chat</span>
-          <span className="dot"></span>
-        </div>
-      }
-      bordered={false}
-    >
-      <div className="chat-body">
-        <ShowMessages
-          welcomeText={welcomeText}
-          messageData={messageData}
-          currentUser={data.username}
-        />
-      </div>
+    <Row>
+      <Col span={8}></Col>
+      <Col span={8}>
+        <Card className="outer-card">
+          <Card
+            className="inner-card"
+            title={<Title title="Live chat" />}
+            bordered={false}
+          >
+            <div className="chat-body">
+              <ShowMessages
+                joinedUsers={joinedUsers}
+                messageList={messageList}
+                currentUser={data.username}
+              />
+            </div>
 
-      <SendMessage
-        form={form}
-        submitSendMessage={onFinish(data, socket, setMessageData, form)}
-      />
-    </Card>
+            <SendMessage
+              form={form}
+              onSubmit={onFinish(data, socket, setMessageList, form)}
+            />
+          </Card>
+        </Card>
+      </Col>
+      <Col span={8}></Col>
+    </Row>
   );
 };
