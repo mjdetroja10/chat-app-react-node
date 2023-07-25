@@ -1,32 +1,32 @@
 .popup-content {
-  max-height: 200px;
-  overflow: auto;
+    max-height: 200px;
+    overflow: auto;
 }
 
 .scrollbar::-webkit-scrollbar {
-  width: 12px; /* width of the entire scrollbar */
+    width: 12px; /* width of the entire scrollbar */
 }
 
 .scrollbar::-webkit-scrollbar-track {
-  border: 2px solid #7c7b7b;
-  border-radius: 10px;
+    border: 2px solid #7c7b7b;
+    border-radius: 10px;
 }
 
 .scrollbar::-webkit-scrollbar-thumb {
-  background-color: #9595af;
-  border-radius: 20px;
-  border: 3px solid rgb(80, 73, 60);
+    background-color: #9595af;
+    border-radius: 20px;
+    border: 3px solid rgb(80, 73, 60);
 }
 
 .plus-icon {
-  color: #0f1de7;
-  cursor: pointer;
-  font-size: 20px;
+    color: #0f1de7;
+    cursor: pointer;
+    font-size: 20px;
 }
 
 .welcome-text {
-  position: sticky;
-  top: 0;
-  background: white;
-  padding-top: 10px;
+    position: sticky;
+    top: 0;
+    background: white;
+    padding-top: 10px;
 }
