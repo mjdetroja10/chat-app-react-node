@@ -1,55 +1,3 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.message-container {
-  width: 100%;
-  height: 100%;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  max-height: 600px !important;
-  min-height: 650px;
-}
-
-.message-container::-webkit-scrollbar {
-  display: none;
-}
-
 .chat-body .message {
   height: auto;
   padding: 10px;
@@ -74,6 +22,20 @@
   word-break: break-word;
 }
 
+.message-container {
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  max-height: 600px !important;
+  min-height: 650px;
+}
+
+.message-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* message box for own or other  */
 #you {
   justify-content: flex-start;
 }
@@ -101,6 +63,8 @@
   margin-right: 10px;
 }
 
+/* message box for own or other --- ends */
+
 .message-meta #author {
   margin-left: 10px;
   font-weight: bold;
@@ -111,6 +75,7 @@
   font-size: 12px;
 }
 
+/* message box title  with dot  */
 .title {
   align-items: center;
   display: flex;
@@ -124,4 +89,9 @@
   border-radius: 50%;
   display: inline-block;
   margin-left: 5px;
+}
+/* message box title  with dot  ---ends  */
+
+.welcome-text-wrapper {
+  height: 650px;
 }

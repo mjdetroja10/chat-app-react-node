@@ -3,14 +3,14 @@ import { Button, Form, Input } from "antd";
 
 const onFinish = (socket, setData) => async (values) => {
   setData(values);
+  console.log(socket, "socket");
   await socket.emit("join_room", values);
 };
 
-export const CreateRoomForm = ({ socket, setData }) => (
+export const CreateRoomForm = ({ socket, setData, socketError }) => (
   <Form
     name="createRoom"
     layout="vertical"
-    style={{ maxWidth: 600 }}
     onFinish={onFinish(socket, setData)}
   >
     <Form.Item
@@ -19,7 +19,7 @@ export const CreateRoomForm = ({ socket, setData }) => (
       type="text"
       rules={[{ required: true, message: "Please input your username!" }]}
     >
-      <Input />
+      <Input autoFocus />
     </Form.Item>
 
     <Form.Item
@@ -27,12 +27,13 @@ export const CreateRoomForm = ({ socket, setData }) => (
       name="room"
       type="text"
       rules={[{ required: true, message: "Please input your room!" }]}
+      tooltip="You should have to add same room as your partner!"
     >
       <Input />
     </Form.Item>
 
     <Form.Item>
-      <Button type="primary" htmlType="submit">
+      <Button type="primary" htmlType="submit" disabled={socketError}>
         Join Chat!
       </Button>
     </Form.Item>

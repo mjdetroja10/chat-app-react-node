@@ -1,17 +1,16 @@
 import { SendOutlined } from "@ant-design/icons";
 import { Button, Col, Form, Input, Row } from "antd";
-import React from "react";
 
-export const SendMessage = ({ form, submitSendMessage }) => {
+export const SendMessage = ({ form, onSubmit }) => {
   return (
     <Form
       name="send-message"
       layout="vertical"
       form={form}
       style={{ maxWidth: 600 }}
-      onFinish={submitSendMessage}
+      onFinish={onSubmit}
     >
-      <Form.Item extra="Yoy can send your message">
+      <Form.Item extra="You can send your message">
         <Row>
           <Col span={20}>
             <Form.Item
@@ -24,7 +23,7 @@ export const SendMessage = ({ form, submitSendMessage }) => {
                 },
               ]}
             >
-              <Input placeholder="message..." />
+              <Input placeholder="message..." autoFocus />
             </Form.Item>
           </Col>
           <Col span={2} style={{ marginLeft: "10px" }}>
