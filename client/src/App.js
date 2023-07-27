@@ -7,21 +7,30 @@ import { useEffect, useState } from 'react'
 const { socket, error } = socketConnect()
 
 export function App() {
-    const [data, setData] = useState(null)
+    const [currentUser, setCurrentUser] = useState(null)
     const [socketError, setsocketError] = useState(null)
 
     useEffect(() => {
         socket.on('connect', () => setsocketError(null))
 
-        socket.on('connect_error', (err) => setsocketError(`error duo to  ${err?.message || 'network error'}`))
+        socket.on('connect_error', (err) => {
+            setsocketError(`error duo to  ${err?.message || 'network error'}`)
+            setCurrentUser(null)
+        })
     }, [socketError])
+
+    useEffect(() => {
+        socket.on('current-user', (user) => {
+            setCurrentUser(user)
+        })
+    }, [currentUser, socket])
 
     return (
         <div className="App">
-            {data ? (
-                <Chat socket={socket} data={data} />
+            {currentUser ? (
+                <Chat socket={socket} currentUser={currentUser} />
             ) : (
-                <CreateRoom socket={socket} setData={setData} socketError={socketError || error} />
+                <CreateRoom socket={socket} socketError={socketError || error} />
             )}
         </div>
     )

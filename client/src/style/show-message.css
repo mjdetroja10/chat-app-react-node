@@ -1,0 +1,157 @@
+.chat-body {
+    position: relative;
+}
+
+.chat-body .message-wrap {
+    height: auto;
+    padding: 10px;
+    display: flex;
+}
+
+.chat-body .message-wrap .message-box {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-body .message-wrap .message-content {
+    width: 100%;
+    max-width: fit-content;
+
+    border-radius: 5px;
+    color: white;
+    display: flex;
+    align-items: center;
+    margin-right: 5px;
+    margin-left: 5px;
+    padding-right: 5px;
+    padding-left: 5px;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    padding: 2px;
+    background: #3492f9;
+    margin: 0;
+}
+
+.message-container {
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-height: 600px !important;
+    min-height: 650px;
+}
+.message-container::-webkit-scrollbar {
+    display: none;
+}
+
+.user-message {
+    padding: 5px 15px;
+    margin: 0;
+    text-align: start;
+}
+
+#you .message-box {
+    align-items: end;
+}
+
+#other .message-box {
+    align-items: start;
+}
+
+/* message box for own or other  */
+#you {
+    justify-content: flex-end;
+}
+
+#you .message-content {
+    justify-content: flex-start;
+    /* color: #202020; */
+}
+
+#you .message-meta {
+    justify-content: flex-start;
+    margin-left: 10px;
+}
+
+#other {
+    justify-content: flex-start;
+}
+
+#other .message-content {
+    justify-content: flex-end;
+    background-color: #fff;
+    color: #000;
+}
+
+#other .message-meta {
+    justify-content: flex-end;
+    margin-right: 10px;
+}
+
+/* message box for own or other --- ends */
+
+.message-meta #author {
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+.chat-body .message-wrap .message-meta {
+    display: flex;
+    font-size: 12px;
+}
+
+.message-meta p {
+    margin: 5px 0 0 0;
+}
+
+/* message box title  with dot  */
+.title {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.title .header-text {
+    margin-bottom: 0.5em;
+    color: #fff;
+}
+
+.welcome-text-wrapper {
+    height: 650px;
+}
+
+.username {
+    width: 100%;
+    text-align: end;
+}
+
+.username .name {
+    margin-bottom: 0.5em;
+    text-transform: capitalize;
+    color: #fff;
+}
+
+.inner-card .ant-card-head {
+    background: #1a1a54;
+    color: #fff;
+}
+
+.inner-card .ant-card-body {
+    background: #eee;
+}
+
+.user-typing {
+    position: absolute;
+    bottom: 128px;
+    left: 45%;
+    z-index: 2;
+}
+
+@media (width < 767px) {
+    .user-typing {
+        bottom: 180px;
+        left: 41%;
+    }
+}

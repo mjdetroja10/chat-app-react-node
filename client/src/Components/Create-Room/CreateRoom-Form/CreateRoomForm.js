@@ -2,14 +2,10 @@ import { Button, Form, Input } from 'antd'
 import PropTypes from 'prop-types'
 import React from 'react'
 
-const onFinish = (socket, setData) => async (values) => {
-    setData(values)
-    console.log(socket, 'socket')
-    await socket.emit('join_room', values)
-}
+const onFinish = (socket) => async (values) => await socket.emit('join_room', values)
 
-export const CreateRoomForm = ({ socket, setData, socketError }) => (
-    <Form name="createRoom" layout="vertical" onFinish={onFinish(socket, setData)}>
+export const CreateRoomForm = ({ socket, socketError }) => (
+    <Form name="createRoom" layout="vertical" onFinish={onFinish(socket)}>
         <Form.Item
             label="Username"
             name="username"

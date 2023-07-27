@@ -3,23 +3,8 @@
     overflow: auto;
 }
 
-.scrollbar::-webkit-scrollbar {
-    width: 12px; /* width of the entire scrollbar */
-}
-
-.scrollbar::-webkit-scrollbar-track {
-    border: 2px solid #7c7b7b;
-    border-radius: 10px;
-}
-
-.scrollbar::-webkit-scrollbar-thumb {
-    background-color: #9595af;
-    border-radius: 20px;
-    border: 3px solid rgb(80, 73, 60);
-}
-
 .plus-icon {
-    color: #0f1de7;
+    /* color: #0f1de7; */
     cursor: pointer;
     font-size: 20px;
 }
@@ -28,5 +13,31 @@
     position: sticky;
     top: 0;
     background: white;
-    padding-top: 10px;
+    padding: 10px 0;
+    max-height: 250px;
+    overflow: auto;
+}
+
+.welcome-text p {
+    margin: 0;
+}
+
+.dot {
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.ant-card-body {
+    padding: 20px !important;
+}
+
+.dot::after {
+    margin-top: 5px;
+    content: '\A';
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #63d514;
+    display: inline-block;
+    margin-left: 4px;
 }

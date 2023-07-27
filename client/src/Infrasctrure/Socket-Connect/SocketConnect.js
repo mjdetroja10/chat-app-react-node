@@ -8,7 +8,7 @@ export const socketConnect = () => {
         return { socket }
     } catch (error) {
         return {
-            error: error?.messsage || 'something went wrong',
+            error: error?.message || 'Network error',
         }
     }
 }

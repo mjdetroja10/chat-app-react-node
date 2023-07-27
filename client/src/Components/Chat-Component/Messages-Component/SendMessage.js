@@ -1,30 +1,32 @@
 import { Button, Col, Form, Input, Row } from 'antd'
+import 'style/send-message.css'
 import PropsType from 'prop-types'
 
 import { SendOutlined } from '@ant-design/icons'
 
-export const SendMessage = ({ form, onSubmit }) => {
+const handelTypingEvent = (socket, currentUser) => (e) => {
+    if (e.keyCode === 8) socket.emit('user-typing', currentUser)
+    else socket.emit('user-typing', currentUser)
+}
+
+export const SendMessage = ({ form, onSubmit, currentUser, socket }) => {
     return (
-        <Form name="send-message" layout="vertical" form={form} style={{ maxWidth: 600 }} onFinish={onSubmit}>
+        <Form name="send-message" layout="vertical" form={form} onFinish={onSubmit}>
             <Form.Item extra="You can send your message">
-                <Row>
-                    <Col span={20}>
-                        <Form.Item
-                            name="message"
-                            type="text"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: "Message can't be empty!",
-                                },
-                            ]}
-                        >
-                            <Input placeholder="message..." autoFocus />
+                <Row className="send-message-wrapper">
+                    <Col className="input-wrap">
+                        <Form.Item name="message" type="text">
+                            <Input
+                                className="send-message-input"
+                                placeholder="Type your message..."
+                                onKeyUp={handelTypingEvent(socket, currentUser)}
+                                autoFocus
+                            />
                         </Form.Item>
                     </Col>
-                    <Col span={2} style={{ marginLeft: '10px' }}>
-                        <Button type="primary" htmlType="submit" ghost>
-                            <SendOutlined />
+                    <Col className="button-wrap">
+                        <Button htmlType="submit" ghost shape="circle" className="send-message-button">
+                            <SendOutlined className="send-icon" />
                         </Button>
                     </Col>
                 </Row>
@@ -34,6 +36,8 @@ export const SendMessage = ({ form, onSubmit }) => {
 }
 
 SendMessage.propTypes = {
+    socket: PropsType.object,
     form: PropsType.object,
     onSubmit: PropsType.func,
+    currentUser: PropsType.shape({ username: PropsType.string, id: PropsType.string, room: PropsType.string }),
 }
