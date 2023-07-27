@@ -1,40 +1,54 @@
-import { Card, Col, Form, Row } from 'antd'
+import { Card, Col, Form, Row, Typography } from 'antd'
 import PropsType from 'prop-types'
 import React, { useEffect, useState } from 'react'
 
 import { SendMessage } from './Messages-Component/SendMessage'
 import { ShowMessages } from './Messages-Component/ShowMessages'
 
-const Title = ({ title }) => (
+const { Title: Text } = Typography
+
+const Title = ({ title, username = '' }) => (
     <div className="title">
-        <span>{title}</span>
-        <span className="dot"></span>
+        <Text level={3} className="header-text">
+            {title}
+        </Text>
+        <span className="username">
+            <Text level={5} type="danger" className="name">
+                {username}
+            </Text>
+        </span>
     </div>
 )
 
-const onFinish = (data, socket, setMessageData, form) => (values) => {
-    let currentTime = new Date(Date.now()).getHours() + ':' + new Date(Date.now()).getMinutes()
+const onFinish =
+    (currentUser, socket, setMessageData, form) =>
+    ({ message }) => {
+        if (message) {
+            let currentTime = new Date(Date.now()).getHours() + ':' + new Date(Date.now()).getMinutes()
 
-    let id = Math.floor(Math.random() * Date.now())
+            let id = Math.floor(Math.random() * Date.now())
 
-    let sendMessage = {
-        ...data,
-        ...values,
-        time: currentTime,
-        id,
+            let sendMessage = {
+                ...currentUser,
+                message,
+                time: currentTime,
+                userId: currentUser.id,
+                id,
+            }
+
+            setMessageData((prev) => [...prev, sendMessage])
+
+            socket.emit('send-message', sendMessage)
+            form.resetFields()
+        }
     }
 
-    setMessageData((prev) => [...prev, sendMessage])
-
-    socket.emit('send-message', sendMessage)
-    form.resetFields()
-}
-
-export const Chat = ({ socket, data }) => {
+export const Chat = ({ socket, currentUser }) => {
     const [form] = Form.useForm()
 
     const [messageList, setMessageList] = useState([])
     const [joinedUsers, setJoinedUsers] = useState([])
+    const [userTyping, setUserTyping] = useState(null)
 
     useEffect(() => {
         socket.on('receive-message', (data) => {
@@ -52,36 +66,53 @@ export const Chat = ({ socket, data }) => {
         })
     }, [socket, setJoinedUsers])
 
+    useEffect(() => {
+        socket.on('user-typing-list', (user) => {
+            setUserTyping(user)
+        })
+    }, [socket, userTyping])
+
     return (
         <Row>
-            <Col span={8}></Col>
-            <Col span={8}>
+            <Col span={24}>
                 <Card className="outer-card">
-                    <Card className="inner-card" title={<Title title="Live chat" />} bordered={false}>
+                    <Card
+                        className="inner-card"
+                        title={<Title title="Live chat" username={currentUser.username} />}
+                        bordered={false}
+                    >
                         <div className="chat-body">
                             <ShowMessages
                                 joinedUsers={joinedUsers}
                                 messageList={messageList}
-                                currentUser={data.username}
+                                activeId={currentUser.id}
                             />
                         </div>
 
-                        <SendMessage form={form} onSubmit={onFinish(data, socket, setMessageList, form)} />
+                        {userTyping && <p className="user-typing">{`${userTyping.username} is typing...`}</p>}
+                        <SendMessage
+                            form={form}
+                            onSubmit={onFinish(currentUser, socket, setMessageList, form)}
+                            currentUser={currentUser}
+                            socket={socket}
+                        />
                     </Card>
                 </Card>
             </Col>
-            <Col span={8}></Col>
         </Row>
     )
 }
 
 Chat.propTypes = {
     socket: PropsType.object,
-    data: PropsType.shape({
+    currentUser: PropsType.shape({
         username: PropsType.string,
+        room: PropsType.string,
+        id: PropsType.string,
     }),
 }
 
 Title.propTypes = {
     title: PropsType.string,
+    username: PropsType.string,
 }

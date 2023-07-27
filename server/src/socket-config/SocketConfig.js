@@ -6,6 +6,9 @@ export const SocketConfig = (io) => {
     socket.on("join_room", (data) => {
       socket.join(data?.room);
 
+      // get current user
+      socket.emit("current-user", { ...data, id: socket.id });
+
       // get username and its id for show text for user is joined the chat
       welcomeTextUsers.push({ username: data?.username, id: socket.id });
       io.sockets.to(data?.room).emit("join_welcome", welcomeTextUsers);
@@ -16,12 +19,21 @@ export const SocketConfig = (io) => {
       socket.to(data.room).emit("receive-message", data);
     });
 
-    socket.on("disconnect", () => {
+    // get user data while user is typing
+    socket.on("user-typing", (data) => {
+      let { room, ...rest } = data;
+      socket.broadcast.emit("user-typing-list", rest);
+      setTimeout(() => {
+        socket.broadcast.emit("user-typing-list", null);
+      }, 500);
+    });
+
+    socket.on("disconnect", (e) => {
       // remove user from welcomeTextUsers list while user leaves chat
-      let disconnectUsers = welcomeTextUsers.filter(
+      welcomeTextUsers = welcomeTextUsers.filter(
         (user) => user.id !== socket.id
       );
-      io.sockets.emit("disconnected_users", disconnectUsers);
+      io.sockets.emit("disconnected_users", welcomeTextUsers);
     });
   });
 };

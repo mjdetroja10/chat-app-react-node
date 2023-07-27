@@ -1,0 +1,61 @@
+.send-message-wrapper {
+    width: 100%;
+}
+.input-wrap {
+    flex: 0 0 93%;
+}
+
+.button-wrap {
+    flex: 0 0 7%;
+    margin-bottom: 5px;
+}
+
+.send-message-input {
+    border-radius: 30px;
+    padding: 11px 20px;
+}
+
+.send-message-input:hover,
+.send-message-input:active,
+.send-message-input:focus {
+    border-color: #1a1a54 !important;
+}
+
+.send-message-button {
+    padding-bottom: 5px !important;
+    background: #1a1a54 !important;
+    color: white !important;
+    border: none;
+    font-size: 18px;
+
+    padding: 0 !important;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    transition: all 0.4s;
+    width: 46px;
+    height: 46px;
+}
+
+.send-message-button:hover {
+    background: white !important;
+    color: black !important;
+    border: 1px solid #565656 !important;
+}
+
+.send-icon {
+    padding-left: 4px;
+}
+
+@media screen and (width < 767px) {
+    .button-wrap {
+        flex: 0 0 93% !important;
+        color: 'red';
+    }
+    .send-message-button {
+        width: 100% !important;
+        border-radius: 30px !important;
+    }
+}
